@@ -1,0 +1,9 @@
+CRUDObjects is the class library which helps to develop PHP data-driven CRUD (create-read-update-delete) applications for MySQL and Oracle 11g+ transparently. By changing one DEFINE you switch from MySQL to Oracle database without changing your code. Abstract class SC1971_Database implements work with 'abstract' database engine (open/close connection, run query etc). It is designed in singleton pattern. Two utility classes SC1971_MySQLDatabase and SC1971_OracleDatabase are inherited from SC1971_Database and implement database layer respectively for MySQL and Oracle. (OCI8 is used for Oracle, mysqli for MySQL).
+
+SC1971_CRUDObject implements work with abstract database table. You can think of SC1971_CRUDObject class instance as of table row. And each class instance can create itself (insert into table), update itself in the table, delete itself from table, and can be read from table (can be instantiated from table as object), i.e. basic CRUD operations are implemented. SC1971_CRUDObject use class SC1971_Database to implement those operations.
+
+Two classes SC1971_MySQLCRUDObject and SC1971_OracleCRUDObject are inherited form SC1971_CRUDObject and implement respectively work with MySQL and Oracle tables. They use respectively SC1971_MySQLDatabase and SC1971_OracleDatabase in their methods.
+
+Based on value of constant DB_ENGINE which can be either 'MYSQL' or 'ORACLE' class alias BaseCRUDObject which points to SC1971_MySQLCRUDObject or to SC1971_OracleCRUDObject, (for instance, class_alias('SC1971_MySQLCRUDObject', 'BaseCRUDObject'));
+
+When you use library, your classes are inherited from BaseCRUDObject (aliased class), thus there is no need to change your code, when you switch database engine by changing DB_ENGINE constant.
